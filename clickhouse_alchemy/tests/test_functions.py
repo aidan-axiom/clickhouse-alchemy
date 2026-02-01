@@ -438,3 +438,204 @@ class TestFunctionsInSelect:
     def test_nested_functions(self):
         expr = func.round(func.avg(column('value')), 2)
         assert expr.compile() == 'round(avg(value), 2)'
+
+
+class TestH3Functions:
+    """Tests for H3 geospatial functions."""
+
+    # Validation & Properties
+    def test_h3_is_valid(self):
+        expr = func.h3_is_valid(column('h3index'))
+        assert expr.compile() == 'h3IsValid(h3index)'
+
+    def test_h3_get_resolution(self):
+        expr = func.h3_get_resolution(column('h3index'))
+        assert expr.compile() == 'h3GetResolution(h3index)'
+
+    def test_h3_get_base_cell(self):
+        expr = func.h3_get_base_cell(column('h3index'))
+        assert expr.compile() == 'h3GetBaseCell(h3index)'
+
+    def test_h3_is_res_class_iii(self):
+        expr = func.h3_is_res_class_iii(column('h3index'))
+        assert expr.compile() == 'h3IsResClassIII(h3index)'
+
+    def test_h3_is_pentagon(self):
+        expr = func.h3_is_pentagon(column('h3index'))
+        assert expr.compile() == 'h3IsPentagon(h3index)'
+
+    def test_h3_get_faces(self):
+        expr = func.h3_get_faces(column('h3index'))
+        assert expr.compile() == 'h3GetFaces(h3index)'
+
+    # Coordinate Conversion
+    def test_geo_to_h3(self):
+        expr = func.geo_to_h3(column('lat'), column('lon'), 10)
+        assert expr.compile() == 'geoToH3(lat, lon, 10)'
+
+    def test_h3_to_geo(self):
+        expr = func.h3_to_geo(column('h3index'))
+        assert expr.compile() == 'h3ToGeo(h3index)'
+
+    def test_h3_to_geo_boundary(self):
+        expr = func.h3_to_geo_boundary(column('h3index'))
+        assert expr.compile() == 'h3ToGeoBoundary(h3index)'
+
+    # String Conversion
+    def test_h3_to_string(self):
+        expr = func.h3_to_string(column('h3index'))
+        assert expr.compile() == 'h3ToString(h3index)'
+
+    def test_string_to_h3(self):
+        expr = func.string_to_h3(column('h3str'))
+        assert expr.compile() == 'stringToH3(h3str)'
+
+    # Hierarchy
+    def test_h3_to_parent(self):
+        expr = func.h3_to_parent(column('h3index'), 5)
+        assert expr.compile() == 'h3ToParent(h3index, 5)'
+
+    def test_h3_to_children(self):
+        expr = func.h3_to_children(column('h3index'), 12)
+        assert expr.compile() == 'h3ToChildren(h3index, 12)'
+
+    def test_h3_to_center_child(self):
+        expr = func.h3_to_center_child(column('h3index'), 12)
+        assert expr.compile() == 'h3ToCenterChild(h3index, 12)'
+
+    # Measurements
+    def test_h3_edge_angle(self):
+        expr = func.h3_edge_angle(10)
+        assert expr.compile() == 'h3EdgeAngle(10)'
+
+    def test_h3_edge_length_m(self):
+        expr = func.h3_edge_length_m(10)
+        assert expr.compile() == 'h3EdgeLengthM(10)'
+
+    def test_h3_edge_length_km(self):
+        expr = func.h3_edge_length_km(10)
+        assert expr.compile() == 'h3EdgeLengthKm(10)'
+
+    def test_h3_hex_area_m2(self):
+        expr = func.h3_hex_area_m2(10)
+        assert expr.compile() == 'h3HexAreaM2(10)'
+
+    def test_h3_hex_area_km2(self):
+        expr = func.h3_hex_area_km2(10)
+        assert expr.compile() == 'h3HexAreaKm2(10)'
+
+    def test_h3_cell_area_m2(self):
+        expr = func.h3_cell_area_m2(column('h3index'))
+        assert expr.compile() == 'h3CellAreaM2(h3index)'
+
+    def test_h3_cell_area_rads2(self):
+        expr = func.h3_cell_area_rads2(column('h3index'))
+        assert expr.compile() == 'h3CellAreaRads2(h3index)'
+
+    def test_h3_exact_edge_length_m(self):
+        expr = func.h3_exact_edge_length_m(column('edge'))
+        assert expr.compile() == 'h3ExactEdgeLengthM(edge)'
+
+    def test_h3_exact_edge_length_km(self):
+        expr = func.h3_exact_edge_length_km(column('edge'))
+        assert expr.compile() == 'h3ExactEdgeLengthKm(edge)'
+
+    def test_h3_exact_edge_length_rads(self):
+        expr = func.h3_exact_edge_length_rads(column('edge'))
+        assert expr.compile() == 'h3ExactEdgeLengthRads(edge)'
+
+    def test_h3_num_hexagons(self):
+        expr = func.h3_num_hexagons(10)
+        assert expr.compile() == 'h3NumHexagons(10)'
+
+    # Distance & Neighbors
+    def test_h3_k_ring(self):
+        expr = func.h3_k_ring(column('h3index'), 3)
+        assert expr.compile() == 'h3kRing(h3index, 3)'
+
+    def test_h3_hex_ring(self):
+        expr = func.h3_hex_ring(column('h3index'), 2)
+        assert expr.compile() == 'h3HexRing(h3index, 2)'
+
+    def test_h3_indexes_are_neighbors(self):
+        expr = func.h3_indexes_are_neighbors(column('h3a'), column('h3b'))
+        assert expr.compile() == 'h3IndexesAreNeighbors(h3a, h3b)'
+
+    def test_h3_distance(self):
+        expr = func.h3_distance(column('h3start'), column('h3end'))
+        assert expr.compile() == 'h3Distance(h3start, h3end)'
+
+    def test_h3_line(self):
+        expr = func.h3_line(column('h3start'), column('h3end'))
+        assert expr.compile() == 'h3Line(h3start, h3end)'
+
+    def test_h3_point_dist_m(self):
+        expr = func.h3_point_dist_m(column('lat1'), column('lon1'), column('lat2'), column('lon2'))
+        assert expr.compile() == 'h3PointDistM(lat1, lon1, lat2, lon2)'
+
+    def test_h3_point_dist_km(self):
+        expr = func.h3_point_dist_km(column('lat1'), column('lon1'), column('lat2'), column('lon2'))
+        assert expr.compile() == 'h3PointDistKm(lat1, lon1, lat2, lon2)'
+
+    def test_h3_point_dist_rads(self):
+        expr = func.h3_point_dist_rads(column('lat1'), column('lon1'), column('lat2'), column('lon2'))
+        assert expr.compile() == 'h3PointDistRads(lat1, lon1, lat2, lon2)'
+
+    # Polygon Operations
+    def test_h3_polygon_to_cells(self):
+        expr = func.h3_polygon_to_cells(column('polygon'), 10)
+        assert expr.compile() == 'h3PolygonToCells(polygon, 10)'
+
+    # Global Functions
+    def test_h3_get_res0_indexes(self):
+        expr = func.h3_get_res0_indexes()
+        assert expr.compile() == 'h3GetRes0Indexes()'
+
+    def test_h3_get_pentagon_indexes(self):
+        expr = func.h3_get_pentagon_indexes(5)
+        assert expr.compile() == 'h3GetPentagonIndexes(5)'
+
+    # Unidirectional Edges
+    def test_h3_get_unidirectional_edge(self):
+        expr = func.h3_get_unidirectional_edge(column('origin'), column('destination'))
+        assert expr.compile() == 'h3GetUnidirectionalEdge(origin, destination)'
+
+    def test_h3_unidirectional_edge_is_valid(self):
+        expr = func.h3_unidirectional_edge_is_valid(column('edge'))
+        assert expr.compile() == 'h3UnidirectionalEdgeIsValid(edge)'
+
+    def test_h3_get_origin_index_from_unidirectional_edge(self):
+        expr = func.h3_get_origin_index_from_unidirectional_edge(column('edge'))
+        assert expr.compile() == 'h3GetOriginIndexFromUnidirectionalEdge(edge)'
+
+    def test_h3_get_destination_index_from_unidirectional_edge(self):
+        expr = func.h3_get_destination_index_from_unidirectional_edge(column('edge'))
+        assert expr.compile() == 'h3GetDestinationIndexFromUnidirectionalEdge(edge)'
+
+    def test_h3_get_indexes_from_unidirectional_edge(self):
+        expr = func.h3_get_indexes_from_unidirectional_edge(column('edge'))
+        assert expr.compile() == 'h3GetIndexesFromUnidirectionalEdge(edge)'
+
+    def test_h3_get_unidirectional_edges_from_hexagon(self):
+        expr = func.h3_get_unidirectional_edges_from_hexagon(column('h3index'))
+        assert expr.compile() == 'h3GetUnidirectionalEdgesFromHexagon(h3index)'
+
+    def test_h3_get_unidirectional_edge_boundary(self):
+        expr = func.h3_get_unidirectional_edge_boundary(column('edge'))
+        assert expr.compile() == 'h3GetUnidirectionalEdgeBoundary(edge)'
+
+    # Integration tests
+    def test_geo_to_h3_with_literals(self):
+        expr = func.geo_to_h3(37.7749, -122.4194, 9)
+        assert expr.compile() == 'geoToH3(37.7749, -122.4194, 9)'
+
+    def test_h3_in_select(self):
+        stmt = select(
+            func.geo_to_h3(column('lat'), column('lon'), 10).label('h3'),
+            func.count().label('cnt')
+        ).select_from(table('events')).group_by(
+            func.geo_to_h3(column('lat'), column('lon'), 10)
+        )
+        sql = stmt.compile()
+        assert 'geoToH3(lat, lon, 10) AS h3' in sql
+        assert 'GROUP BY geoToH3(lat, lon, 10)' in sql
