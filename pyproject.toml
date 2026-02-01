@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.8"
 authors = [
-    { name = "Your Name", email = "your.email@example.com" }
+    { name = "Aidan Lewis", email = "aidan@axiomalaska.com" }
 ]
 keywords = [
     "clickhouse",
@@ -46,10 +46,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/clickhouse-alchemy"
-Documentation = "https://github.com/yourusername/clickhouse-alchemy#readme"
-Repository = "https://github.com/yourusername/clickhouse-alchemy"
-Issues = "https://github.com/yourusername/clickhouse-alchemy/issues"
+Homepage = "https://github.com/aidan-axiom/clickhouse-alchemy"
+Documentation = "https://github.com/aidan-axiom/clickhouse-alchemy#readme"
+Repository = "https://github.com/aidan-axiom/clickhouse-alchemy"
+Issues = "https://github.com/aidan-axiom/clickhouse-alchemy/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["clickhouse_alchemy"]
