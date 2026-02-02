@@ -53,6 +53,9 @@ Issues = "https://github.com/aidan-axiom/clickhouse-alchemy/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["clickhouse_alchemy"]
+exclude = [
+    "clickhouse_alchemy/environment.yml",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
