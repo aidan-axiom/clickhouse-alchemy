@@ -1,0 +1,17 @@
+# Pytest
+.pytest_cache/
+*.pytest_cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+
+# Eggs
+*.egg
+*.egg-info/
