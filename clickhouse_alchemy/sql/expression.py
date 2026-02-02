@@ -455,6 +455,32 @@ class Exists(ColumnElement):
         return f"EXISTS ({self._select.compile()})"
 
 
+class Interval(ClauseElement):
+    """SQL INTERVAL expression for ClickHouse.
+
+    Represents an interval like INTERVAL 1 HOUR or INTERVAL 5 MINUTE.
+    """
+
+    VALID_UNITS = (
+        'NANOSECOND', 'MICROSECOND', 'MILLISECOND', 'SECOND', 'MINUTE', 'HOUR',
+        'DAY', 'WEEK', 'MONTH', 'QUARTER', 'YEAR',
+    )
+
+    def __init__(self, value: Any, unit: str):
+        self.value = value
+        unit_upper = unit.upper()
+        if unit_upper not in self.VALID_UNITS:
+            raise ValueError(f"Invalid interval unit: {unit}. Must be one of {self.VALID_UNITS}")
+        self.unit = unit_upper
+
+    def compile(self) -> str:
+        if isinstance(self.value, ClauseElement):
+            value_sql = self.value.compile()
+        else:
+            value_sql = str(self.value)
+        return f"INTERVAL {value_sql} {self.unit}"
+
+
 class All(ColumnElement):
     """ALL subquery modifier."""
 
@@ -578,3 +604,20 @@ def nulls_first(element: Any) -> OrderByElement:
 def nulls_last(element: Any) -> OrderByElement:
     """Create NULLS LAST ordering."""
     return OrderByElement(_ensure_clause(element), nulls_last=True)
+
+
+def interval(value: Any, unit: str) -> Interval:
+    """Create an INTERVAL expression.
+
+    Args:
+        value: The interval value (e.g., 1, 5, 15)
+        unit: The interval unit (e.g., 'HOUR', 'MINUTE', 'DAY')
+
+    Returns:
+        An Interval object that compiles to INTERVAL value unit
+
+    Example:
+        >>> interval(1, 'HOUR').compile()
+        'INTERVAL 1 HOUR'
+    """
+    return Interval(value, unit)

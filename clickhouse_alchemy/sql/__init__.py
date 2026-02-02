@@ -23,6 +23,7 @@ from .expression import (
     All,
     Any,
     ArrayAccess,
+    Interval,
     # Factory functions
     literal,
     column,
@@ -33,6 +34,7 @@ from .expression import (
     exists,
     all_,
     any_,
+    interval,
     # Boolean combinators
     and_,
     or_,
@@ -116,6 +118,7 @@ __all__ = [
     "All",
     "Any",
     "ArrayAccess",
+    "Interval",
     # Factory functions
     "literal",
     "column",
@@ -126,6 +129,7 @@ __all__ = [
     "exists",
     "all_",
     "any_",
+    "interval",
     # Boolean combinators
     "and_",
     "or_",
