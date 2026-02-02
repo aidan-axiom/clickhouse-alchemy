@@ -360,6 +360,15 @@ func.if_(column("x") > 0, "positive", "non-positive")
 func.coalesce(column("a"), column("b"), 0)
 func.if_null(column("value"), 0)
 
+# H3 geospatial functions
+func.geo_to_h3(column("lat"), column("lon"), 10)  # Convert coords to H3 index
+func.h3_to_geo(column("h3index"))                  # Get cell centroid
+func.h3_to_parent(column("h3index"), 5)            # Get parent at resolution 5
+func.h3_to_children(column("h3index"), 12)         # Get children at resolution 12
+func.h3_k_ring(column("h3index"), 3)               # Get neighbors within distance 3
+func.h3_distance(column("h3a"), column("h3b"))     # Grid distance between cells
+func.h3_is_valid(column("h3index"))                # Validate H3 index
+
 # Type conversion
 func.to_uint64(column("str_id"))
 func.to_string(column("id"))

@@ -1010,3 +1010,227 @@ def current_database() -> FunctionCall:
 def current_user() -> FunctionCall:
     """currentUser - current user name."""
     return FunctionCall("currentUser")
+
+
+# H3 functions - Validation & Properties
+def h3_is_valid(h3index: Any) -> FunctionCall:
+    """h3IsValid - validates if a number is a valid H3 index."""
+    return FunctionCall("h3IsValid", h3index)
+
+
+def h3_get_resolution(h3index: Any) -> FunctionCall:
+    """h3GetResolution - returns the resolution of an H3 index."""
+    return FunctionCall("h3GetResolution", h3index)
+
+
+def h3_get_base_cell(index: Any) -> FunctionCall:
+    """h3GetBaseCell - returns the base cell number of an H3 index."""
+    return FunctionCall("h3GetBaseCell", index)
+
+
+def h3_is_res_class_iii(index: Any) -> FunctionCall:
+    """h3IsResClassIII - checks if an H3 index has Class III resolution."""
+    return FunctionCall("h3IsResClassIII", index)
+
+
+def h3_is_pentagon(index: Any) -> FunctionCall:
+    """h3IsPentagon - checks if an H3 index is a pentagon."""
+    return FunctionCall("h3IsPentagon", index)
+
+
+def h3_get_faces(index: Any) -> FunctionCall:
+    """h3GetFaces - returns all icosahedron faces intersected by an H3 index."""
+    return FunctionCall("h3GetFaces", index)
+
+
+# H3 functions - Coordinate Conversion
+def geo_to_h3(lat: Any, lon: Any, resolution: Any) -> FunctionCall:
+    """geoToH3 - converts geographic coordinates to H3 index."""
+    return FunctionCall("geoToH3", lat, lon, resolution)
+
+
+def h3_to_geo(h3index: Any) -> FunctionCall:
+    """h3ToGeo - returns the centroid coordinates of an H3 index."""
+    return FunctionCall("h3ToGeo", h3index)
+
+
+def h3_to_geo_boundary(h3index: Any) -> FunctionCall:
+    """h3ToGeoBoundary - returns the boundary coordinates of an H3 cell."""
+    return FunctionCall("h3ToGeoBoundary", h3index)
+
+
+# H3 functions - String Conversion
+def h3_to_string(index: Any) -> FunctionCall:
+    """h3ToString - converts an H3 index to its string representation."""
+    return FunctionCall("h3ToString", index)
+
+
+def string_to_h3(index_str: Any) -> FunctionCall:
+    """stringToH3 - converts a string to an H3 index."""
+    return FunctionCall("stringToH3", index_str)
+
+
+# H3 functions - Hierarchy
+def h3_to_parent(index: Any, resolution: Any) -> FunctionCall:
+    """h3ToParent - returns the parent H3 index at a coarser resolution."""
+    return FunctionCall("h3ToParent", index, resolution)
+
+
+def h3_to_children(index: Any, resolution: Any) -> FunctionCall:
+    """h3ToChildren - returns the children H3 indexes at a finer resolution."""
+    return FunctionCall("h3ToChildren", index, resolution)
+
+
+def h3_to_center_child(index: Any, resolution: Any) -> FunctionCall:
+    """h3ToCenterChild - returns the center child at a finer resolution."""
+    return FunctionCall("h3ToCenterChild", index, resolution)
+
+
+# H3 functions - Measurements
+def h3_edge_angle(resolution: Any) -> FunctionCall:
+    """h3EdgeAngle - returns the average edge length in degrees."""
+    return FunctionCall("h3EdgeAngle", resolution)
+
+
+def h3_edge_length_m(resolution: Any) -> FunctionCall:
+    """h3EdgeLengthM - returns the average edge length in meters."""
+    return FunctionCall("h3EdgeLengthM", resolution)
+
+
+def h3_edge_length_km(resolution: Any) -> FunctionCall:
+    """h3EdgeLengthKm - returns the average edge length in kilometers."""
+    return FunctionCall("h3EdgeLengthKm", resolution)
+
+
+def h3_hex_area_m2(resolution: Any) -> FunctionCall:
+    """h3HexAreaM2 - returns the average hexagon area in square meters."""
+    return FunctionCall("h3HexAreaM2", resolution)
+
+
+def h3_hex_area_km2(resolution: Any) -> FunctionCall:
+    """h3HexAreaKm2 - returns the average hexagon area in square kilometers."""
+    return FunctionCall("h3HexAreaKm2", resolution)
+
+
+def h3_cell_area_m2(index: Any) -> FunctionCall:
+    """h3CellAreaM2 - returns the exact area of a cell in square meters."""
+    return FunctionCall("h3CellAreaM2", index)
+
+
+def h3_cell_area_rads2(index: Any) -> FunctionCall:
+    """h3CellAreaRads2 - returns the exact area of a cell in square radians."""
+    return FunctionCall("h3CellAreaRads2", index)
+
+
+def h3_exact_edge_length_m(index: Any) -> FunctionCall:
+    """h3ExactEdgeLengthM - returns the exact edge length in meters."""
+    return FunctionCall("h3ExactEdgeLengthM", index)
+
+
+def h3_exact_edge_length_km(index: Any) -> FunctionCall:
+    """h3ExactEdgeLengthKm - returns the exact edge length in kilometers."""
+    return FunctionCall("h3ExactEdgeLengthKm", index)
+
+
+def h3_exact_edge_length_rads(index: Any) -> FunctionCall:
+    """h3ExactEdgeLengthRads - returns the exact edge length in radians."""
+    return FunctionCall("h3ExactEdgeLengthRads", index)
+
+
+def h3_num_hexagons(resolution: Any) -> FunctionCall:
+    """h3NumHexagons - returns the total number of hexagons at a resolution."""
+    return FunctionCall("h3NumHexagons", resolution)
+
+
+# H3 functions - Distance & Neighbors
+def h3_k_ring(h3index: Any, k: Any) -> FunctionCall:
+    """h3kRing - returns all H3 indexes within k distance."""
+    return FunctionCall("h3kRing", h3index, k)
+
+
+def h3_hex_ring(index: Any, k: Any) -> FunctionCall:
+    """h3HexRing - returns the hollow ring of H3 indexes at distance k."""
+    return FunctionCall("h3HexRing", index, k)
+
+
+def h3_indexes_are_neighbors(index1: Any, index2: Any) -> FunctionCall:
+    """h3IndexesAreNeighbors - checks if two H3 indexes are neighbors."""
+    return FunctionCall("h3IndexesAreNeighbors", index1, index2)
+
+
+def h3_distance(start: Any, end: Any) -> FunctionCall:
+    """h3Distance - returns the grid distance between two H3 indexes."""
+    return FunctionCall("h3Distance", start, end)
+
+
+def h3_line(start: Any, end: Any) -> FunctionCall:
+    """h3Line - returns the line of H3 indexes between two indexes."""
+    return FunctionCall("h3Line", start, end)
+
+
+def h3_point_dist_m(lat1: Any, lon1: Any, lat2: Any, lon2: Any) -> FunctionCall:
+    """h3PointDistM - returns distance between two points in meters."""
+    return FunctionCall("h3PointDistM", lat1, lon1, lat2, lon2)
+
+
+def h3_point_dist_km(lat1: Any, lon1: Any, lat2: Any, lon2: Any) -> FunctionCall:
+    """h3PointDistKm - returns distance between two points in kilometers."""
+    return FunctionCall("h3PointDistKm", lat1, lon1, lat2, lon2)
+
+
+def h3_point_dist_rads(lat1: Any, lon1: Any, lat2: Any, lon2: Any) -> FunctionCall:
+    """h3PointDistRads - returns distance between two points in radians."""
+    return FunctionCall("h3PointDistRads", lat1, lon1, lat2, lon2)
+
+
+# H3 functions - Polygon Operations
+def h3_polygon_to_cells(geometry: Any, resolution: Any) -> FunctionCall:
+    """h3PolygonToCells - returns H3 indexes that cover a polygon."""
+    return FunctionCall("h3PolygonToCells", geometry, resolution)
+
+
+# H3 functions - Global Functions
+def h3_get_res0_indexes() -> FunctionCall:
+    """h3GetRes0Indexes - returns all resolution 0 H3 indexes."""
+    return FunctionCall("h3GetRes0Indexes")
+
+
+def h3_get_pentagon_indexes(resolution: Any) -> FunctionCall:
+    """h3GetPentagonIndexes - returns all pentagon indexes at a resolution."""
+    return FunctionCall("h3GetPentagonIndexes", resolution)
+
+
+# H3 functions - Unidirectional Edges
+def h3_get_unidirectional_edge(origin: Any, destination: Any) -> FunctionCall:
+    """h3GetUnidirectionalEdge - returns the unidirectional edge between two cells."""
+    return FunctionCall("h3GetUnidirectionalEdge", origin, destination)
+
+
+def h3_unidirectional_edge_is_valid(index: Any) -> FunctionCall:
+    """h3UnidirectionalEdgeIsValid - checks if an edge index is valid."""
+    return FunctionCall("h3UnidirectionalEdgeIsValid", index)
+
+
+def h3_get_origin_index_from_unidirectional_edge(edge: Any) -> FunctionCall:
+    """h3GetOriginIndexFromUnidirectionalEdge - returns the origin cell of an edge."""
+    return FunctionCall("h3GetOriginIndexFromUnidirectionalEdge", edge)
+
+
+def h3_get_destination_index_from_unidirectional_edge(edge: Any) -> FunctionCall:
+    """h3GetDestinationIndexFromUnidirectionalEdge - returns the destination cell of an edge."""
+    return FunctionCall("h3GetDestinationIndexFromUnidirectionalEdge", edge)
+
+
+def h3_get_indexes_from_unidirectional_edge(edge: Any) -> FunctionCall:
+    """h3GetIndexesFromUnidirectionalEdge - returns origin and destination cells."""
+    return FunctionCall("h3GetIndexesFromUnidirectionalEdge", edge)
+
+
+def h3_get_unidirectional_edges_from_hexagon(index: Any) -> FunctionCall:
+    """h3GetUnidirectionalEdgesFromHexagon - returns all edges from a cell."""
+    return FunctionCall("h3GetUnidirectionalEdgesFromHexagon", index)
+
+
+def h3_get_unidirectional_edge_boundary(index: Any) -> FunctionCall:
+    """h3GetUnidirectionalEdgeBoundary - returns the boundary of an edge."""
+    return FunctionCall("h3GetUnidirectionalEdgeBoundary", index)
