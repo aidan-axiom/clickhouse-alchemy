@@ -471,7 +471,7 @@ column("name").desc().nulls_last()
 pip install -e ".[dev]"
 
 # Run tests
-pytest clickhouse_alchemy/tests/ -v
+pytest tests/ -v
 
 # Run with coverage
 pytest --cov=clickhouse_alchemy
@@ -482,6 +482,50 @@ mypy clickhouse_alchemy
 # Linting
 ruff check clickhouse_alchemy
 ```
+
+## Publishing to PyPI
+
+### First-time setup
+
+1. Create a PyPI account at https://pypi.org/account/register/
+2. Generate an API token at https://pypi.org/manage/account/token/
+3. Create `~/.pypirc`:
+   ```ini
+   [pypi]
+   username = __token__
+   password = pypi-YOUR-TOKEN-HERE
+   ```
+4. Secure the file: `chmod 600 ~/.pypirc`
+
+### Releasing a new version
+
+1. Update the version in `pyproject.toml` and `clickhouse_alchemy/__init__.py`:
+   ```python
+   # pyproject.toml
+   version = "0.2.0"
+
+   # clickhouse_alchemy/__init__.py
+   __version__ = "0.2.0"
+   ```
+
+2. Clean old builds:
+   ```bash
+   rm -rf dist/ build/ *.egg-info
+   ```
+
+3. Build the package:
+   ```bash
+   pip install build
+   python -m build
+   ```
+
+4. Upload to PyPI:
+   ```bash
+   pip install twine
+   twine upload dist/*
+   ```
+
+The package will be available at `pip install clickhouse-alchemy`.
 
 ## License
 
