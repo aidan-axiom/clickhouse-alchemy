@@ -116,6 +116,9 @@ from .sql import (
     and_,
     or_,
     not_,
+    # Interval
+    Interval,
+    interval,
     # Ordering
     asc,
     desc,
@@ -255,6 +258,8 @@ __all__ = [
     "and_",
     "or_",
     "not_",
+    "Interval",
+    "interval",
     "asc",
     "desc",
     "nulls_first",

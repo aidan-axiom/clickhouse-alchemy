@@ -531,6 +531,49 @@ def to_start_of_second(d: Any) -> FunctionCall:
     return FunctionCall("toStartOfSecond", d)
 
 
+def to_start_of_interval(
+    d: Any,
+    interval: Any,
+    timezone: str = None,
+    origin: Any = None,
+) -> FunctionCall:
+    """toStartOfInterval - rounds down a date/datetime to the start of an interval.
+
+    This function generalizes other toStartOf* functions to arbitrary intervals.
+
+    Args:
+        d: A Date, DateTime, or DateTime64 value
+        interval: An Interval object (use interval(value, unit) to create one)
+        timezone: Optional timezone string (e.g., 'UTC', 'America/New_York')
+        origin: Optional origin point for interval calculation (since ClickHouse 22.9)
+
+    Returns:
+        A FunctionCall representing toStartOfInterval
+
+    Examples:
+        >>> from clickhouse_alchemy import func
+        >>> from clickhouse_alchemy.sql.expression import interval
+        >>>
+        >>> # Round to start of hour
+        >>> func.to_start_of_interval(column('ts'), interval(1, 'HOUR'))
+        >>>
+        >>> # Round to 15-minute intervals
+        >>> func.to_start_of_interval(column('ts'), interval(15, 'MINUTE'))
+        >>>
+        >>> # With timezone
+        >>> func.to_start_of_interval(column('ts'), interval(1, 'DAY'), 'UTC')
+    """
+    args = [d, interval]
+    if timezone is not None:
+        args.append(timezone)
+    if origin is not None:
+        if timezone is None:
+            # timezone is required if origin is specified
+            raise ValueError("timezone must be specified when using origin parameter")
+        args.append(origin)
+    return FunctionCall("toStartOfInterval", *args)
+
+
 def format_datetime(d: Any, fmt: Any) -> FunctionCall:
     """formatDateTime - format datetime."""
     return FunctionCall("formatDateTime", d, fmt)

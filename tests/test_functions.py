@@ -2,7 +2,7 @@
 
 import pytest
 
-from clickhouse_alchemy import func, column, select, table
+from clickhouse_alchemy import func, column, select, table, interval, Interval
 
 
 class TestAggregateFunctions:
@@ -235,6 +235,83 @@ class TestDateTimeFunctions:
     def test_format_datetime(self):
         expr = func.format_datetime(column('dt'), '%Y-%m-%d')
         assert expr.compile() == "formatDateTime(dt, '%Y-%m-%d')"
+
+    def test_to_start_of_interval_hour(self):
+        expr = func.to_start_of_interval(column('ts'), interval(1, 'HOUR'))
+        assert expr.compile() == 'toStartOfInterval(ts, INTERVAL 1 HOUR)'
+
+    def test_to_start_of_interval_minute(self):
+        expr = func.to_start_of_interval(column('ts'), interval(15, 'MINUTE'))
+        assert expr.compile() == 'toStartOfInterval(ts, INTERVAL 15 MINUTE)'
+
+    def test_to_start_of_interval_day(self):
+        expr = func.to_start_of_interval(column('ts'), interval(1, 'DAY'))
+        assert expr.compile() == 'toStartOfInterval(ts, INTERVAL 1 DAY)'
+
+    def test_to_start_of_interval_with_timezone(self):
+        expr = func.to_start_of_interval(column('ts'), interval(1, 'HOUR'), 'UTC')
+        assert expr.compile() == "toStartOfInterval(ts, INTERVAL 1 HOUR, 'UTC')"
+
+    def test_to_start_of_interval_with_origin(self):
+        expr = func.to_start_of_interval(
+            column('ts'),
+            interval(1, 'DAY'),
+            'UTC',
+            '2023-01-01'
+        )
+        assert expr.compile() == "toStartOfInterval(ts, INTERVAL 1 DAY, 'UTC', '2023-01-01')"
+
+    def test_to_start_of_interval_origin_requires_timezone(self):
+        with pytest.raises(ValueError, match="timezone must be specified"):
+            func.to_start_of_interval(column('ts'), interval(1, 'DAY'), origin='2023-01-01')
+
+
+class TestIntervalExpression:
+    """Tests for Interval expression."""
+
+    def test_interval_hour(self):
+        expr = interval(1, 'HOUR')
+        assert expr.compile() == 'INTERVAL 1 HOUR'
+
+    def test_interval_minute(self):
+        expr = interval(15, 'MINUTE')
+        assert expr.compile() == 'INTERVAL 15 MINUTE'
+
+    def test_interval_day(self):
+        expr = interval(7, 'DAY')
+        assert expr.compile() == 'INTERVAL 7 DAY'
+
+    def test_interval_week(self):
+        expr = interval(2, 'WEEK')
+        assert expr.compile() == 'INTERVAL 2 WEEK'
+
+    def test_interval_month(self):
+        expr = interval(1, 'MONTH')
+        assert expr.compile() == 'INTERVAL 1 MONTH'
+
+    def test_interval_year(self):
+        expr = interval(1, 'YEAR')
+        assert expr.compile() == 'INTERVAL 1 YEAR'
+
+    def test_interval_second(self):
+        expr = interval(30, 'SECOND')
+        assert expr.compile() == 'INTERVAL 30 SECOND'
+
+    def test_interval_millisecond(self):
+        expr = interval(100, 'MILLISECOND')
+        assert expr.compile() == 'INTERVAL 100 MILLISECOND'
+
+    def test_interval_case_insensitive(self):
+        expr = interval(1, 'hour')
+        assert expr.compile() == 'INTERVAL 1 HOUR'
+
+    def test_interval_invalid_unit(self):
+        with pytest.raises(ValueError, match="Invalid interval unit"):
+            interval(1, 'FORTNIGHT')
+
+    def test_interval_with_column_value(self):
+        expr = interval(column('n'), 'HOUR')
+        assert expr.compile() == 'INTERVAL n HOUR'
 
 
 class TestTypeConversionFunctions:
